@@ -2987,6 +2987,12 @@
 					"parameterSlots": 0,
 					"returnSlots": 0
 				},
+				"@flipWhiteListSaleActive_2272": {
+					"entryPoint": 6404,
+					"id": 2272,
+					"parameterSlots": 0,
+					"returnSlots": 0
+				},
 				"@flipSaleActive_2271": {
 					"entryPoint": 6403,
 					"id": 2271,
