@@ -115,6 +115,10 @@ contract BruceMeta is ERC721Enumerable, Ownable {
         return baseURI;
     }
 
+    function flipWhiteListSaleActive() public onlyOwner {
+      _isWhiteListSaleActive = !_isWhiteListSaleActive;
+    }
+
     //only owner
     function flipSaleActive() public onlyOwner {
         _isSaleActive = !_isSaleActive;
