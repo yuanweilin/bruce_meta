@@ -308,7 +308,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "mintNicMeta",
+				"name": "mintBruceMeta",
 				"outputs": [],
 				"stateMutability": "payable",
 				"type": "function"
@@ -766,7 +766,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/nic_meta_nft.sol": "NicMeta"
+			"contracts/bruce_meta_nft.sol": "BruceMeta"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -876,7 +876,7 @@
 				"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy"
 			]
 		},
-		"contracts/nic_meta_nft.sol": {
+		"contracts/Bruce_meta_nft.sol": {
 			"keccak256": "0x33fdcff40902ff0fb40eb1b6584e84cb8c532fff82fdf194ce6b6c7cbab85339",
 			"license": "MIT",
 			"urls": [

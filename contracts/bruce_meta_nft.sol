@@ -6,15 +6,17 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract NicMeta is ERC721Enumerable, Ownable {
+contract BruceMeta is ERC721Enumerable, Ownable {
     using Strings for uint256;
 
+    bool public _isWhiteListSaleActive = false;
     bool public _isSaleActive = false;
     bool public _revealed = false;
 
     // Constants
     uint256 public constant MAX_SUPPLY = 10;
     uint256 public mintPrice = 0.3 ether;
+    uint256 public whiteListPrice = 0.3 ether;
     uint256 public maxBalance = 1;
     uint256 public maxMint = 1;
 
@@ -23,20 +25,21 @@ contract NicMeta is ERC721Enumerable, Ownable {
     string public baseExtension = ".json";
 
     mapping(uint256 => string) private _tokenURIs;
+    mapping(address => bool) private whiteList;
 
     constructor(string memory initBaseURI, string memory initNotRevealedUri)
-        ERC721("Nic Meta", "NM")
+        ERC721("Bruce Meta", "NM")
     {
         setBaseURI(initBaseURI);
         setNotRevealedURI(initNotRevealedUri);
     }
 
-    function mintNicMeta(uint256 tokenQuantity) public payable {
+    function mintBruceMeta(uint256 tokenQuantity) public payable {
         require(
             totalSupply() + tokenQuantity <= MAX_SUPPLY,
             "Sale would exceed max supply"
         );
-        require(_isSaleActive, "Sale must be active to mint NicMetas");
+        require(_isSaleActive, "Sale must be active to mint BruceMetas");
         require(
             balanceOf(msg.sender) + tokenQuantity <= maxBalance,
             "Sale would exceed max balance"
@@ -47,16 +50,32 @@ contract NicMeta is ERC721Enumerable, Ownable {
         );
         require(tokenQuantity <= maxMint, "Can only mint 1 tokens at a time");
 
-        _mintNicMeta(tokenQuantity);
+        _mintBruceMeta(tokenQuantity);
     }
 
-    function _mintNicMeta(uint256 tokenQuantity) internal {
+    function setWhiteList(address _whiteList) public onlyOwner {
+      whiteList[_whiteList] = true;
+    }
+
+    function _mintBruceMeta(uint256 tokenQuantity) internal {
         for (uint256 i = 0; i < tokenQuantity; i++) {
             uint256 mintIndex = totalSupply();
             if (totalSupply() < MAX_SUPPLY) {
                 _safeMint(msg.sender, mintIndex);
             }
         }
+    }
+
+    function whiteListMintMetas(uint tokenQuantity) public payable {
+      require(_isWhiteListSaleActive, "Sale must be active to mint Metas");
+      require(whiteList[msg.sender], "Not in white list");
+      require(totalSupply() + tokenQuantity <= MAX_SUPPLY, "Sale would exceed tier supply");
+      require(totalSupply() + tokenQuantity <= MAX_SUPPLY, "Sale would exceed max supply");
+      require(balanceOf(msg.sender) + tokenQuantity <= maxBalance, "Sale would exceed max balance");
+      require(tokenQuantity <= maxMint, "Sale would exceed max mint");
+      require(tokenQuantity * whiteListPrice <= msg.value, "Not enough ether sent");
+      _mintBruceMeta(tokenQuantity);
+      whiteList[msg.sender] = false;
     }
 
     function tokenURI(uint256 tokenId)
